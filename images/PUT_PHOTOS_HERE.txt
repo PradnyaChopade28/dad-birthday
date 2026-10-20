@@ -1,0 +1,1 @@
+Put your 5 photos here named photo1, photo2, photo3, photo4, photo5 (.jpg .jpeg .png or .webp all work).

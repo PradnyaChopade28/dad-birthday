@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Happy Birthday, Dad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Gochi+Hand&family=Patrick+Hand&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="ambient" aria-hidden="true"></div>
+<canvas id="fx"></canvas>
+<div id="frame" aria-hidden="true"></div>
+
+<audio id="bg-audio" loop preload="none"><source src="audio/theme-song.mp3" type="audio/mpeg"></audio>
+<button id="sound-toggle" class="sound-toggle" type="button" aria-label="Toggle music">🔈</button>
+<button id="prev-btn" class="prev-btn" type="button" aria-label="Go back" hidden>‹</button>
+<div class="pencil-bar" aria-hidden="true"><div class="pencil-fill" id="pencil-fill"><span class="pencil-tip">✏️</span></div></div>
+
+<main id="app">
+
+  <!-- 1. TITLE -->
+  <section class="slide" id="s-title" data-anim="drop">
+    <div class="rays" aria-hidden="true"></div>
+    <img class="stk swing" src="stickers/teacher.png" alt="" draggable="false" style="--w:21vmin;--l:2%;--t:3.5rem;--d:.3s;--dur:3.2s;--rot:-4deg">
+    <img class="stk pulse" src="stickers/dad-heart.png" alt="" draggable="false" style="--w:24vmin;--r:3%;--t:3.2rem;--d:.5s;--dur:1.6s">
+    <img class="stk float" src="stickers/superdad.png" alt="" draggable="false" style="--w:34vmin;--l:1%;--b:2.5%;--d:.7s;--dur:3.6s;--mw:220px">
+    <img class="stk bob" src="stickers/graduate.png" alt="" draggable="false" style="--w:14vmin;--r:4%;--b:3%;--d:.9s;--dur:2.4s;--mw:100px">
+    <div class="title-wrap">
+      <p class="kicker rise" style="--d:.2s">a little surprise for my favourite teacher</p>
+      <h1 id="title" aria-label="Happy Birthday Dad">
+        <span class="line l1" id="t1" data-text="Happy Birthday"></span>
+        <span class="line l2" id="t2" data-text="Dad"></span>
+      </h1>
+      <svg class="squiggle" viewBox="0 0 220 16" aria-hidden="true"><path d="M4 9 Q 31 -2 58 9 T 112 9 T 166 9 T 216 9" /></svg>
+      <p class="byline rise" style="--d:3s">with love, from <span id="from-name">your daughter</span> ❤️</p>
+      <p class="tap-hint rise" style="--d:3.6s">tap anywhere to begin ✏️</p>
+    </div>
+  </section>
+
+  <!-- 2. QUOTE -->
+  <section class="slide" id="s-quote" data-anim="right">
+    <img class="stk wiggle" src="stickers/graduate.png" alt="" draggable="false" style="--w:15vmin;--l:3%;--b:3%;--d:.6s;--dur:2.2s;--mw:110px">
+    <img class="stk pulse" src="stickers/dad-heart.png" alt="" draggable="false" style="--w:19vmin;--r:3%;--t:3.4rem;--d:.4s;--dur:1.8s;--mw:150px">
+    <p class="eyebrow rise" style="--d:.2s">a few words from my heart</p>
+    <div class="board-card"><p class="quote" id="quote-text"></p></div>
+    <p class="hint next-hint">tap anywhere for next →</p>
+  </section>
+
+  <!-- 3. PHOTOS -->
+  <section class="slide" id="s-photos" data-anim="zoomrot">
+    <img class="stk swing" src="stickers/teacher.png" alt="" draggable="false" style="--w:16vmin;--r:2%;--t:3.4rem;--d:.5s;--dur:3s;--mw:120px;--rot:4deg">
+    <p class="eyebrow rise" style="--d:.2s">my favourite memories</p>
+    <h2 class="chalk-title rise" style="--d:.35s">Moments with my favourite teacher 📸</h2>
+    <div class="stack" id="stack"></div>
+    <p class="count" id="photo-count"></p>
+    <p class="hint next-hint">tap a photo for the next one • tap the board for next page →</p>
+  </section>
+
+  <!-- 4. REPORT CARD -->
+  <section class="slide" id="s-report" data-anim="flip">
+    <img class="stk float" src="stickers/teacher.png" alt="" draggable="false" style="--w:17vmin;--l:2%;--b:3%;--d:1s;--dur:3.4s;--mw:130px">
+    <p class="eyebrow rise" style="--d:.2s">a very official document</p>
+    <div class="report">
+      <p class="report-title">REPORT CARD</p>
+      <p class="report-sub">Subject: <b>Being the World's Best Dad</b></p>
+      <div id="report-rows"></div>
+      <p class="remark" id="report-remark"></p>
+      <div class="stamp">A+ ⭐</div>
+    </div>
+    <p class="hint next-hint">tap anywhere for next →</p>
+  </section>
+
+  <!-- 5. LETTER -->
+  <section class="slide" id="s-letter" data-anim="iris">
+    <img class="stk float" src="stickers/dad-heart.png" alt="" draggable="false" style="--w:17vmin;--r:2%;--t:3.3rem;--d:.6s;--dur:3s;--mw:130px">
+    <p class="eyebrow rise" style="--d:.2s">the part I hope you read twice</p>
+    <div class="notebook" id="notebook"><p class="letter-text" id="letter-text"></p></div>
+    <p class="hint next-hint" id="letter-hint">tap anywhere for next →</p>
+  </section>
+
+  <!-- 6. CAKE -->
+  <section class="slide" id="s-cake" data-anim="up">
+    <img class="stk wiggle" src="stickers/graduate.png" alt="" draggable="false" style="--w:13vmin;--r:3%;--b:4%;--d:.7s;--dur:2s;--mw:95px">
+    <p class="eyebrow rise" style="--d:.2s">one more thing</p>
+    <h2 class="chalk-title rise" style="--d:.35s">I baked you something 🍰</h2>
+    <div class="cake-scene" id="cake-scene">
+      <div class="steam" id="steam"><span>☁️</span><span>☁️</span><span>☁️</span></div>
+      <div class="oven" id="oven" role="button" aria-label="Tap the oven to bake">
+        <div class="oven-panel"><i class="knob"></i><span class="timer" id="oven-timer">0:00</span><i class="knob"></i></div>
+        <div class="oven-door"><div class="oven-glow"></div><div class="batter"></div></div>
+        <div class="oven-handle"></div>
+      </div>
+      <div class="cake" id="cake" hidden role="button" aria-label="Tap the cake to blow out the candles">
+        <div class="candles">
+          <span class="candle"><i class="flame"></i><i class="wax"></i></span>
+          <span class="candle c2"><i class="flame"></i><i class="wax"></i></span>
+          <span class="candle c3"><i class="flame"></i><i class="wax"></i></span>
+        </div>
+        <div class="tier tier-top"><span class="frost"></span><span class="cherry">🍒</span><span class="cherry r">🍒</span></div>
+        <div class="tier tier-bottom"><span class="frost"></span><span class="cake-text">Dad</span></div>
+        <div class="plate"></div>
+      </div>
+    </div>
+    <p class="hint next-hint" id="cake-hint">tap the oven to bake 🔥</p>
+  </section>
+
+  <!-- 7. CELEBRATE -->
+  <section class="slide" id="s-celebrate" data-anim="pop">
+    <div class="rays" aria-hidden="true"></div>
+    <img class="stk float giant" src="stickers/superdad.png" alt="" draggable="false" style="--w:44vmin;--mw:280px;--d:.2s;--dur:3s">
+    <div class="celebrate-text">
+      <h2 class="big-line" id="cele-line" data-text="Hip hip hooray!"></h2>
+      <p class="chalk-sub rise" style="--d:1.6s" id="cele-sub"></p>
+    </div>
+    <img class="stk wiggle" src="stickers/graduate.png" alt="" draggable="false" style="--w:13vmin;--r:4%;--b:3%;--d:1.1s;--dur:2s;--mw:95px">
+    <img class="stk pulse" src="stickers/dad-heart.png" alt="" draggable="false" style="--w:17vmin;--l:3%;--b:3%;--d:1.3s;--dur:1.7s;--mw:130px">
+    <p class="hint next-hint">tap anywhere for the last part →</p>
+  </section>
+
+  <!-- 8. TREE -->
+  <section class="slide" id="s-tree" data-anim="iris">
+    <div class="tree-scene" id="tree-scene">
+      <svg id="tree-svg" class="tree-svg" viewBox="0 0 300 285" aria-hidden="true">
+        <ellipse class="ground" cx="150" cy="268" rx="125" ry="11"/>
+        <path class="trunk" d="M137 268 C140 232 143 200 147 165 L153 165 C157 200 160 232 163 268 Z"/>
+        <g class="branches" fill="none" stroke-linecap="round">
+          <path d="M150 195 C130 176 106 166 80 146" style="--n:0"/>
+          <path d="M150 185 C170 166 200 156 226 134" style="--n:1"/>
+          <path d="M149 172 C141 146 136 116 141 84" style="--n:2"/>
+          <path d="M148 176 C120 156 120 126 100 106" style="--n:3"/>
+          <path d="M152 176 C180 154 182 124 206 104" style="--n:4"/>
+        </g>
+        <g id="leaves"></g>
+      </svg>
+      <img class="hang" src="stickers/dad-heart.png" alt="" draggable="false">
+    </div>
+    <h2 class="tree-title shine" id="tree-heading">I love you, Dad ❤️</h2>
+    <p class="chalk-sub" id="tree-sub">Happy Birthday once again, my teacher, my hero.</p>
+    <button id="replay-btn" class="chalk-btn" type="button">↻ watch it again</button>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
